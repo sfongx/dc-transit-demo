@@ -6,9 +6,16 @@ DC Circulator and DC Metro Rail, with potential for more) and aggregating them i
 This is done within the Django framework. To set up create a virtual environment named `env1` and run
 `pip install -r requirements.txt` inside it to install all the necessary dependencies.
 
-[views.py](): The views file that handles the parameters typed in and creates the corresponding parser instances
-[dcCirculator.py](): Parser class for DC Circulator's Data
-[dcMetrorail.py](): Parser class for the DC Metrorail's Data
+[views.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/views.py): The views file that handles the parameters typed in and creates the corresponding parser instances
+
+[dcCirculator.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/parsers/dcCirculator.py): Parser class for 
+DC Circulator's Data
+
+[dcMetrorail.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/parsers/dcMetrorail.py): Parser class for 
+the DC Metrorail's Data
+
+[abstractTransit.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/parsers/abstractTransit.py): Abstract 
+parent parser class that only specifies that the `getResponse` method is required with a provided stop ID.
 
 The response includes the name of the agency (only DC Circulator or DC Metrorail) and the stop name, followed
 by the list of buses or trains, each including the following fields: full and abbreviated route names, destination,
