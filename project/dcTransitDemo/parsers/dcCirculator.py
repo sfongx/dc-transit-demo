@@ -17,18 +17,22 @@ class DCCirculator(AbstractTransit):
         return xmlDict
 
     def parseResponse(self, response):
-        # First check to see if a valid stop ID was provided
+        # First check for an error message
         response = response['body']
         if 'Error' in response:
-            # If not return an error message
+            # If there is an error message assume  a bad stop ID was provided
             return {
                 'error': 'DC Circulator stop ID is not valid'
             }
         
         # Otherwise proceed to grab the following:
-        # stop Name, short route name, full route name,
-        # direction, destination, and minutes away
+        # Stop name, short route name, full route name,
+        # direction, destination, minutes away, and vehicle ID
+
+        # Make the response now point to the API response's 'predictions' section
         response = response['predictions']
+
+        # Provide data outside of the predictions that includes the stop name and agency
         parsedResponse = {
             'agencyName': 'DC Circulator',
             'stopName': response['@stopTitle'],
@@ -36,23 +40,20 @@ class DCCirculator(AbstractTransit):
         }
 
         # Route name and direction are all the same for each stop ID
-        # Using the provided route title as the destination
-        # Full route will be tag + route name
+        # Destination will be left blank for all
         shortRoute = response['@routeTag']
-        destination = response['@routeTitle']
-        fullRoute = "(" + shortRoute + ") " + destination
+        fullRoute = response['@routeTitle']
         direction = response['direction']['@title']
 
         # Look at every vehicle individually
         predictions = response['direction']['prediction']
-
         for vehicle in predictions:
             parsedResponse['predictions'].append({
                 'shortRoute': shortRoute,
                 'fullRoute': fullRoute,
-                'destination': destination,
+                'destination': None,
                 'direction': direction,
-                'minutes': vehicle['@minutes'],
+                'minutes': int(vehicle['@minutes']),
                 'vehicleId': vehicle['@vehicle']
             })
 
@@ -64,5 +65,7 @@ class DCCirculator(AbstractTransit):
         
         # Return the parsed response        
         return self.parseResponse(rawResponse)
+
+        # For testing purposes
         # return rawResponse
 
