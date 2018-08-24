@@ -27,7 +27,9 @@ I tested this on my local by navigating to `localhost:8000/transit/?` followed b
 Example calls:
 
 `localhost:8000/transit/?circulator=12&metrorail=A01`
+
 `localhost:8000/transit/?circulator=8001`
+
 `localhost:8000/transit/?metrorail=B01`
 
 DC Metro's station codes are listed on Wikipedia
