@@ -1,3 +1,5 @@
-# Ignore everything in the env
+# Ignore everything in the virtualenv folder (named 'env1')
 env1/
+
+# Ignore all the pycache files
 __pycache__/
