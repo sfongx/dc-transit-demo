@@ -135,7 +135,8 @@ Example Response:
     ],
     "stopName": "Metro Center"
   }
-]```
+]
+```
 
 DC Metro's station codes are listed on Wikipedia
 
