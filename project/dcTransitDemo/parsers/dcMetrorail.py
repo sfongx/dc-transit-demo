@@ -73,8 +73,8 @@ class DCMetrorail(AbstractTransit):
             if minutes == 'ARR' or minutes == 'BRD':
                 # ARR and BRD will be treated as 0 minutes
                 minutes = 0
-            elif minutes == 'DLY':
-                # DLY will be arbitrarily treated as '1000' minutes
+            elif minutes == 'DLY' or minutes == '':
+                # DLY or no value will be arbitrarily treated as '1000' minutes
                 minutes = 1000
             else:
                 # Normal minute values will be converted as is

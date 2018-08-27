@@ -70,15 +70,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-# Using the dc_demo_database, which needs to be created in mysql with user/pass set up
+# Using default database
 DATABASES = {
-    'default' : {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dc_demo_database',
-        'USER': 'sherwin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': ''
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
 
