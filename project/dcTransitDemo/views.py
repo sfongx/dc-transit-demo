@@ -5,8 +5,7 @@ from .parsers.abstractTransit import AbstractTransit
 from .parsers.dcCirculator import DCCirculator
 from .parsers.dcMetrorail import DCMetrorail
 
-# handleRequest only method as part of views
-# Look at the provided parameters and create the corresponding parser objects
+# Look at the provided stop ID paramters and pair them with the corresponding parser objects
 def handleRequest(request):
     circulatorId = request.GET.get('circulator', None)
     metrorailId = request.GET.get('metrorail', None)
