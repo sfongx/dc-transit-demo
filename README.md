@@ -32,6 +32,111 @@ Example calls:
 
 `localhost:8000/transit/?metrorail=B01`
 
+Example Response:
+
+```[
+  {
+    "agencyName": "DC Circulator",
+    "predictions": [
+      {
+        "direction": "Westbound",
+        "vehicleId": "2003",
+        "destination": null,
+        "minutes": 14,
+        "shortRoute": "yellow",
+        "fullRoute": "Georgetown - Union Station"
+      },
+      {
+        "direction": "Westbound",
+        "vehicleId": "1138",
+        "destination": null,
+        "minutes": 28,
+        "shortRoute": "yellow",
+        "fullRoute": "Georgetown - Union Station"
+      },
+      {
+        "direction": "Westbound",
+        "vehicleId": "1130",
+        "destination": null,
+        "minutes": 38,
+        "shortRoute": "yellow",
+        "fullRoute": "Georgetown - Union Station"
+      },
+      {
+        "direction": "Westbound",
+        "vehicleId": "2103",
+        "destination": null,
+        "minutes": 48,
+        "shortRoute": "yellow",
+        "fullRoute": "Georgetown - Union Station"
+      },
+      {
+        "direction": "Westbound",
+        "vehicleId": "2108",
+        "destination": null,
+        "minutes": 68,
+        "shortRoute": "yellow",
+        "fullRoute": "Georgetown - Union Station"
+      }
+    ],
+    "stopName": "K Street NW And 19th Street NW"
+  },
+  {
+    "agencyName": "DC Metrorail",
+    "predictions": [
+      {
+        "direction": "1",
+        "vehicleId": null,
+        "destination": "NoMa-Gallaudet",
+        "minutes": 2,
+        "shortRoute": "RD",
+        "fullRoute": "Red"
+      },
+      {
+        "direction": "1",
+        "vehicleId": null,
+        "destination": "NoMa-Gallaudet",
+        "minutes": 6,
+        "shortRoute": "RD",
+        "fullRoute": "Red"
+      },
+      {
+        "direction": "2",
+        "vehicleId": null,
+        "destination": "Shady Grove",
+        "minutes": 6,
+        "shortRoute": "RD",
+        "fullRoute": "Red"
+      },
+      {
+        "direction": "1",
+        "vehicleId": null,
+        "destination": "NoMa-Gallaudet",
+        "minutes": 15,
+        "shortRoute": "RD",
+        "fullRoute": "Red"
+      },
+      {
+        "direction": "2",
+        "vehicleId": null,
+        "destination": "Shady Grove",
+        "minutes": 15,
+        "shortRoute": "RD",
+        "fullRoute": "Red"
+      },
+      {
+        "direction": "2",
+        "vehicleId": null,
+        "destination": "Shady Grove",
+        "minutes": 21,
+        "shortRoute": "RD",
+        "fullRoute": "Red"
+      }
+    ],
+    "stopName": "Metro Center"
+  }
+]```
+
 DC Metro's station codes are listed on Wikipedia
 
 Circulator's stop IDs can be found by calling their API for each route like so:
