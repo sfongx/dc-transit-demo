@@ -20,7 +20,7 @@ class DCCirculator(AbstractTransit):
         # First check for an error message
         response = response['body']
         if 'Error' in response:
-            # If there is an error message assume  a bad stop ID was provided
+            # If there is an error message assume a bad stop ID was provided
             return {
                 'error': 'DC Circulator stop ID is not valid'
             }
