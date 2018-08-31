@@ -4,11 +4,13 @@ from django.http import HttpResponse, JsonResponse
 from .parsers.abstractTransit import AbstractTransit
 from .parsers.dcCirculator import DCCirculator
 from .parsers.dcMetrorail import DCMetrorail
+from .parsers.dcMetrobus import DCMetrobus
 
 # Look at the provided stop ID paramters and pair them with the corresponding parser objects
 def handleRequest(request):
     circulatorId = request.GET.get('circulator', None)
     metrorailId = request.GET.get('metrorail', None)
+    metrobusId = request.GET.get('metrobus', None)
 
     parserPairs = []
     if circulatorId:
@@ -16,6 +18,9 @@ def handleRequest(request):
 
     if metrorailId:
         parserPairs.append((DCMetrorail(), metrorailId))
+    
+    if metrobusId:
+        parserPairs.append((DCMetrobus(), metrobusId))
 
     # Initialize empty list to return as the response
     responseList = []

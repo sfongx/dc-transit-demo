@@ -45,7 +45,7 @@ class DCCirculator(AbstractTransit):
         fullRoute = response['@routeTitle']
         direction = response['direction']['@title']
 
-        # Look at every vehicle individually
+        # Now grab the predictions for each bus
         predictions = response['direction']['prediction']
         for vehicle in predictions:
             parsedResponse['predictions'].append({
