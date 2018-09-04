@@ -6,6 +6,8 @@ from .parsers.dcCirculator import DCCirculator
 from .parsers.dcMetrorail import DCMetrorail
 from .parsers.dcMetrobus import DCMetrobus
 
+from help.py import metrobusHelp
+
 # Look at the provided stop ID paramters and pair them with the corresponding parser objects
 def handleRequest(request):
     circulatorId = request.GET.get('circulator', None)
@@ -32,3 +34,16 @@ def handleRequest(request):
         responseList.append(parser.getResponse(stopId))
 
     return JsonResponse(responseList, safe=False)
+
+def handleMetrobusHelp(request):
+
+    lat = request.GET.get('lat', None)
+    lon = request.GET.get('lon', None)
+
+    if lat and lon:
+        return JsonResponse(metrobusHelp(lat, lon), safe=False)
+    else:
+        errorMessage = {
+            'error': 'Please provide a latitude and longitude'
+        }
+        return JsonResponse(errorMessage, safe=False)

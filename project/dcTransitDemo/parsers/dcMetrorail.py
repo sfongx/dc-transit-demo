@@ -3,6 +3,7 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64
 import json
 
 class DCMetrorail(AbstractTransit):
+    
     def makeRequest(self, stopId):
         # Set up the api key
         # IMPORTANT note: this is a key for non-production purposes that can be obtained for free 
@@ -13,19 +14,24 @@ class DCMetrorail(AbstractTransit):
         # Initialize parameters as empty
         params = urllib.parse.urlencode({})
 
-        # Make the request
-        conn = http.client.HTTPSConnection('api.wmata.com')
-        conn.request("GET", "/StationPrediction.svc/json/GetPrediction/%s?%s" % (stopId, params), "{body}", headers)
-        
-        # Get raw JSON response data
-        response = conn.getresponse()
-        responseData = response.read().decode("utf-8")
-        conn.close()
+        # Attempt to make the request
+        try:
+            conn = http.client.HTTPSConnection('api.wmata.com')
+            conn.request("GET", "/StationPrediction.svc/json/GetPrediction/%s?%s" % (stopId, params), "{body}", headers)
+            
+            # Get raw JSON response data
+            response = conn.getresponse()
+            responseData = response.read().decode("utf-8")
+            conn.close()
 
-        # Convert response data to dict
-        responseDict = json.loads(responseData)
+            # Convert response data to dict
+            responseDict = json.loads(responseData)
 
-        return responseDict
+            return responseDict
+
+        # In the event of an http error catch it
+        except urllib.error.HTTPError as err:
+            raise Exception("HTTP Error %d" %err.code)
 
     def parseResponse(self, response):
         # First check for an error message
@@ -94,12 +100,18 @@ class DCMetrorail(AbstractTransit):
         return parsedResponse
     
     def getResponse(self, stopId):
-        # First get the raw response by making the request to the API
-        rawResponse = self.makeRequest(stopId)
+        # First attempt get the raw response by making the request to the API
+        try:
+            rawResponse = self.makeRequest(stopId)
+            
+            # Return the parsed response        
+            return self.parseResponse(rawResponse)
 
-        # Return the parsed response        
-        return self.parseResponse(rawResponse)
+            # For testing purposes
+            # return rawResponse
 
-        # For testing purposes
-        # return rawResponse
+        # makeRequest will throw an exception if it gets an http error
+        except Exception as e:
+            return str(e)
+
 

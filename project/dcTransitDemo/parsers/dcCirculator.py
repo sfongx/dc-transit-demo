@@ -4,17 +4,24 @@ import xmltodict
 import json
 
 class DCCirculator(AbstractTransit):
+    
     def makeRequest(self, stopId):
         # Set up the URL
         url = 'http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=dc-circulator&stopId=%s' % stopId
 
-        # Get raw XML Response
-        xmlResponse = urllib.request.urlopen(url)
+        # Attempt to make the request:
+        try:
+            # Get raw XML Response
+            xmlResponse = urllib.request.urlopen(url)
 
-        # Convert XML to dict
-        xmlDict = xmltodict.parse(xmlResponse.read().decode('utf-8'))
+            # Convert XML to dict
+            xmlDict = xmltodict.parse(xmlResponse.read().decode('utf-8'))
 
-        return xmlDict
+            return xmlDict
+        
+        # In the event of an http error catch it
+        except urllib.error.HTTPError as err:
+            raise Exception("HTTP Error %d" %err.code)
 
     def parseResponse(self, response):
         # First check for an error message
@@ -60,12 +67,18 @@ class DCCirculator(AbstractTransit):
         return parsedResponse
     
     def getResponse(self, stopId):
-        # First get the raw response by making the request to the API
-        rawResponse = self.makeRequest(stopId)
-        
-        # Return the parsed response        
-        return self.parseResponse(rawResponse)
+        # First attempt get the raw response by making the request to the API
+        try:
+            rawResponse = self.makeRequest(stopId)
+            
+            # Return the parsed response        
+            return self.parseResponse(rawResponse)
 
-        # For testing purposes
-        # return rawResponse
+            # For testing purposes
+            # return rawResponse
+
+        # makeRequest will throw an exception if it gets an http error
+        except Exception as e:
+            return str(e)
+
 
