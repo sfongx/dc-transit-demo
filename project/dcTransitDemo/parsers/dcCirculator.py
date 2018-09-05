@@ -36,7 +36,7 @@ class DCCirculator(AbstractTransit):
         # Stop name, short route name, full route name,
         # direction, destination, minutes away, and vehicle ID
 
-        # Make the response now point to the API response's 'predictions' section
+        # Now point to the API response's 'predictions' section
         response = response['predictions']
 
         # Provide data outside of the predictions that includes the stop name and agency

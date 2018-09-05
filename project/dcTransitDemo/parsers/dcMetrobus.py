@@ -54,8 +54,10 @@ class DCMetrobus(AbstractTransit):
             'predictions': []
         }
 
-        # Now grab the predictions for each bus
+        # Point to the API response's 'Predictions' section
         response = response['Predictions']
+
+        # Grab relevant information for each bus
         for vehicle in response:
             parsedResponse['predictions'].append({
                 'shortRoute': vehicle['RouteID'],
