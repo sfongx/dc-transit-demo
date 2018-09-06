@@ -17,12 +17,11 @@ the DC Metrorail's Data
 [abstractTransit.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/parsers/abstractTransit.py): Abstract 
 parent parser class that only specifies that the `getResponse` method is required with a provided stop ID.
 
-The response includes the name of the agency (only DC Circulator or DC Metrorail) and the stop name, followed
+The response includes the name of the agency (Metrorail, Metrobus, or Circulator) and the stop name, followed
 by the list of buses or trains, each including the following fields: full and abbreviated route names, destination,
 direction, minutes away, and vehicle ID, though some may be left null.
 
-I tested this on my local by navigating to `localhost:8000/transit/?` followed by the `circulator` and/or 
-`metrorail` paramters with stop IDs.
+I tested this on my local by navigating to `localhost:8000/transit/?` followed by the `circulator`, `metrobus`, and/or `metrorail` paramters with stop IDs.
 
 Example calls:
 
@@ -138,9 +137,10 @@ Example Response:
 ]
 ```
 
-DC Metro's station codes are listed on Wikipedia
+**Update 9/6/2018**: I have since implemented help functionality to look up stop IDs.
 
-Circulator's stop IDs can be found by calling their API for each route like so:
-`http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=dc-circulator&r=yellow`, where
-'yellow' can be replaced with the other route tags, which includes 'yellow', 'green', 'blue', 'rosslyn',
-'potomac', and 'mall'.
+**Metrorail**:
+
+**Metrobus**:
+
+**Circulator**:
