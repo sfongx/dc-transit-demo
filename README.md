@@ -141,6 +141,22 @@ Example Response:
 
 **Metrorail**:
 
+[metrorailHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/metrorailHelp.py)
+
+Metrorail station code lookup can be done by calling `localhost:8000/transit/metrorailstops/?code=RD`, where the code param is the
+line code. Also line codes can be looked up by calling `localhost:8000/transit/metroraillines/`
+
 **Metrobus**:
 
+[metrobusHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/metrobusHelp.py)
+
+Metrobus stops can be looked up by entering in a latitude, longitude, and radius, like so:
+`http://localhost:8000/transit/metrobusstops/?lat=38.807270&lon=-77.060023&radius=1000`, which returns all stops in the area up to the
+specified radius in meters
+
 **Circulator**:
+
+[circulatorHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/circulatorHelp.py)
+
+Circulator stops can be looked up by calling `http://localhost:8000/transit/circulatorstops/?tag=yellow` where the tag param is the
+route tag. Also route tags can be looked up by calling `localhost:8000/transit/circulatorroutes/`
