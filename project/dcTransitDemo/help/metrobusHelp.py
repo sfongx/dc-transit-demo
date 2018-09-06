@@ -1,8 +1,6 @@
 import http.client, urllib.request, urllib.parse, urllib.error, base64
 import json
 
-#class metrobusHelp:
-
 def makeRequest(lat, lon, rad):
     # Set up the api key
     # IMPORTANT note: this is a key for non-production purposes that can be obtained for free 
@@ -37,12 +35,14 @@ def makeRequest(lat, lon, rad):
     except urllib.error.HTTPError as err:
         raise Exception("HTTP Error %d" %err.code)
 
-def parseResponse(rawResponse):
+def parseResponse(response):
+    # List of stops stored under 'Stops'
+    stopList = response['Stops']
     # Initialize empty parsed stop list
     parsedStops = []
 
     # Grab each stop's relevant information
-    for stop in rawResponse['Stops']:
+    for stop in stopList:
         parsedStops.append({
             'stopName': stop['Name'],
             'stopId': stop['StopID'],
@@ -52,11 +52,11 @@ def parseResponse(rawResponse):
     return parsedStops
 
 def metrobusStopSearch(lat, lon, rad):
-    # Attempt to make API call to obtain stops IDs given coordinates & radius
+    # Attempt to make API call to obtain stop IDs given coordinates & radius
     try:
         rawResponse = makeRequest(lat, lon, rad)
 
-        # Parse the response so only the name and ID are returned
+        # Parse the response so only the stop ID, name, and coordinates are returned
         return parseResponse(rawResponse)
 
         # For testing purposes

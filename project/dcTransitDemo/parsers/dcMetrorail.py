@@ -14,8 +14,9 @@ class DCMetrorail(AbstractTransit):
         # Initialize parameters as empty
         params = urllib.parse.urlencode({})
 
-        # Attempt to make the request
+        # Attempt to make the request and get the raw response
         try:
+            # Make the request
             conn = http.client.HTTPSConnection('api.wmata.com')
             conn.request("GET", "/StationPrediction.svc/json/GetPrediction/%s?%s" % (stopId, params), "{body}", headers)
             
@@ -69,6 +70,7 @@ class DCMetrorail(AbstractTransit):
         # Flag for setting the stop name
         stopNameGrabbed = False
 
+        # Grab the relevant information for each train
         for train in response:
             # If trains are running grab the stop name once
             if stopNameGrabbed == False:

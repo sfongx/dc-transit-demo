@@ -16,8 +16,9 @@ class DCMetrobus(AbstractTransit):
 	        'StopID': stopId
         })
 
-        # Attempt to make the request
+        # Attempt to make the request and get the raw response
         try:
+            # Make the request
             conn = http.client.HTTPSConnection('api.wmata.com')
             conn.request("GET", "/NextBusService.svc/json/jPredictions?%s" % params, "{body}", headers)
 

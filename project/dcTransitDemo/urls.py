@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.handleRequest, name='handleRequest'),
     url(r'^metrobusstops/', views.handleMetrobusStops, name='handleMetrobusStops'),
+    url(r'^metrorailstops/', views.handleMetrorailStops, name='handleMetrorailStops'),
+    url(r'^metroraillines/', views.handleMetrorailLines, name='handleMetrorailLines'),
     url(r'^circulatorroutes/', views.handleCirculatorRoutes, name='handleCirculatorRoutes'),
     url(r'^circulatorstops/', views.handleCirculatorStops, name='handleCirculatorStops')
 ]

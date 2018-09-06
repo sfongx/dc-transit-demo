@@ -5,6 +5,7 @@ from .parsers.abstractTransit import AbstractTransit
 from .parsers.dcCirculator import DCCirculator
 from .parsers.dcMetrorail import DCMetrorail
 from .parsers.dcMetrobus import DCMetrobus
+from .help.metrorailHelp import metrorailLineSearch, metrorailStopSearch
 from .help.metrobusHelp import metrobusStopSearch
 from .help.circulatorHelp import circulatorRouteSearch, circulatorStopSearch
 
@@ -49,8 +50,19 @@ def handleMetrobusStops(request):
         }
         return JsonResponse(errorMessage, safe=False)
 
-def handleCirculatorRoutes(request):
-    return JsonResponse(circulatorRouteSearch(), safe=False)
+def handleMetrorailStops(request):
+    lineCode = request.GET.get('code', None)
+
+    if lineCode:
+        return JsonResponse(metrorailStopSearch(lineCode), safe=False)
+    else:
+        errorMessage = {
+            'error': 'Please provide a line code'
+        }
+        return JsonResponse(errorMessage, safe=False)
+
+def handleMetrorailLines(request):
+    return JsonResponse(metrorailLineSearch(), safe=False)
 
 def handleCirculatorStops(request):
     routeTag = request.GET.get('tag', None)
@@ -62,4 +74,7 @@ def handleCirculatorStops(request):
             'error': 'Please provide a route tag'
         }
         return JsonResponse(errorMessage, safe=False)
+
+def handleCirculatorRoutes(request):
+    return JsonResponse(circulatorRouteSearch(), safe=False)
 

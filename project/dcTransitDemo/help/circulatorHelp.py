@@ -66,7 +66,7 @@ def circulatorStopSearch(routeTag):
         url = 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=dc-circulator&r=%s' % routeTag
         rawResponse = makeRequest(url)
 
-        # Parse the response so only the name and ID are returned
+        # Parse the response so only the stop ID, name, and coordinates are returned
         return parseStops(rawResponse)
 
         # For testing purposes
@@ -82,7 +82,7 @@ def circulatorRouteSearch():
         url = 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=dc-circulator'
         rawResponse = makeRequest(url)
 
-        # Parse the response so only the name and ID are returned
+        # Parse the response so only the route name and tag are returned
         return parseRoutes(rawResponse)
 
         # For testing purposes
