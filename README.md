@@ -170,105 +170,99 @@ Example response for stop lookups:
 
 ```[
   {
-    "stopName": "PENNSYLVANIA AVE NW + 28TH ST NW",
-    "lon": -77.056691,
-    "lat": 38.904907,
-    "stopId": "1003227"
+    "lat": 38.8971951,
+    "lon": -77.07153,
+    "stopName": "Rosslyn Metro Station",
+    "stopId": "0136"
   },
   {
-    "stopName": "PENNSYLVANIA AVE NW + 28TH ST NW",
-    "lon": -77.056829,
-    "lat": 38.904789,
-    "stopId": "1001316"
+    "lat": 38.9050201,
+    "lon": -77.067573,
+    "stopName": "34th St and M St NW",
+    "stopId": "0137"
   },
   {
-    "stopName": "PENNSYLVANIA AVE NW + 26TH ST NW",
-    "lon": -77.054543,
-    "lat": 38.904218,
-    "stopId": "1001299"
+    "lat": 38.9050599,
+    "lon": -77.0654409,
+    "stopName": "Potomac St and M St NW",
+    "stopId": "0138"
   },
   {
-    "stopName": "M ST NW + 30TH ST NW",
-    "lon": -77.059609,
-    "lat": 38.905313,
-    "stopId": "1001322"
+    "lat": 38.9051199,
+    "lon": -77.06234,
+    "stopName": "Wisconsin Ave and M St NW",
+    "stopId": null
   },
   {
-    "stopName": "PENNSYLVANIA AVE NW + L ST NW",
-    "lon": -77.054293,
-    "lat": 38.903849,
-    "stopId": "1001290"
+    "lat": 38.9051599,
+    "lon": -77.0603853,
+    "stopName": "Thomas Jefferson St and M St NW",
+    "stopId": "0032"
   },
   {
-    "stopName": "28TH ST NW + DUMBARTON ST NW",
-    "lon": -77.056995,
-    "lat": 38.907989,
-    "stopId": "1001389"
+    "lat": 38.9049514,
+    "lon": -77.0572747,
+    "stopName": "Penn Ave and 28th St",
+    "stopId": "0033"
   },
   {
-    "stopName": "M ST NW + THOMAS JEFFERSON ST NW",
-    "lon": -77.060407,
-    "lat": 38.905124,
-    "stopId": "1001321"
+    "lat": 38.90365,
+    "lon": -77.0515929,
+    "stopName": "24th and L St",
+    "stopId": "0139"
   },
   {
-    "stopName": "DUMBARTON ST NW + 30TH ST NW",
-    "lon": -77.059336,
-    "lat": 38.907603,
-    "stopId": "1001381"
+    "lat": 38.9051333,
+    "lon": -77.0475276,
+    "stopName": "New Hampshire and Mass Ave",
+    "stopId": "0140"
   },
   {
-    "stopName": "PENNSYLVANIA AVE NW + L ST NW",
-    "lon": -77.052893,
-    "lat": 38.903636,
-    "stopId": "1003226"
+    "lat": 38.907402,
+    "lon": -77.04348,
+    "stopName": "19th St and N St (Dupont Metro)",
+    "stopId": "0141"
   },
   {
-    "stopName": "M ST NW + 31ST ST NW",
-    "lon": -77.061622,
-    "lat": 38.905285,
-    "stopId": "1001323"
+    "lat": 38.9054288,
+    "lon": -77.0474509,
+    "stopName": "New Hampshire and M St",
+    "stopId": "0143"
   },
   {
-    "stopName": "28TH ST NW + P ST NW",
-    "lon": -77.057012,
-    "lat": 38.909259,
-    "stopId": "1001412"
+    "lat": 38.9053014,
+    "lon": -77.0511411,
+    "stopName": "24th and M St NW",
+    "stopId": "0144"
   },
   {
-    "stopName": "P ST NW + 28TH ST NW",
-    "lon": -77.056951,
-    "lat": 38.909424,
-    "stopId": "1001421"
+    "lat": 38.905291,
+    "lon": -77.0568095,
+    "stopName": "28th and M St NW",
+    "stopId": "0145"
   },
   {
-    "stopName": "P ST NW + 29TH ST NW",
-    "lon": -77.057996,
-    "lat": 38.909407,
-    "stopId": "1001420"
+    "lat": 38.9052698,
+    "lon": -77.0594118,
+    "stopName": "30th St and M St NW",
+    "stopId": "0146"
   },
   {
-    "stopName": "M ST NW + WISCONSIN AVE NW",
-    "lon": -77.062296,
-    "lat": 38.905093,
-    "stopId": "1001319"
+    "lat": 38.905253,
+    "lon": -77.0616653,
+    "stopName": "31st St and M St NW",
+    "stopId": "0147"
   },
   {
-    "stopName": "P ST NW + 27TH ST NW",
-    "lon": -77.055408,
-    "lat": 38.909439,
-    "stopId": "1001424"
+    "lat": 38.905229,
+    "lon": -77.063291,
+    "stopName": "Wisconsin Ave and M St NW",
+    "stopId": "0148"
   },
   {
-    "stopName": "P ST NW + 26TH ST NW",
-    "lon": -77.054884,
-    "lat": 38.909313,
-    "stopId": "1001418"
-  },
-  {
-    "stopName": "P ST NW + 30TH ST NW",
-    "lon": -77.059097,
-    "lat": 38.909379,
-    "stopId": "1001419"
+    "lat": 38.9051633,
+    "lon": -77.0659037,
+    "stopName": "33rd St and M St NW",
+    "stopId": "0149"
   }
 ]```
