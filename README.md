@@ -198,7 +198,8 @@ Example Response:
     "stopName": "M St Nw + Wisconsin Ave Nw",
     "agencyName": "DC Metrobus"
   }
-]```
+]
+```
 
 **Update 9/6/2018**: I have since implemented a stop ID lookup functionality.
 
@@ -326,4 +327,6 @@ Example response for stop lookups:
     "stopName": "33rd St and M St NW",
     "stopId": "0149"
   }
-]```
+]
+```
+
