@@ -25,11 +25,11 @@ I tested this on my local by navigating to `localhost:8000/transit/?` followed b
 
 Example calls:
 
-`localhost:8000/transit/?circulator=12&metrorail=A01`
+`localhost:8000/transit/?metrobus=1001319&metrorail=A01&circulator=12`
 
 `localhost:8000/transit/?circulator=8001`
 
-`http://localhost:8000/transit/?metrobus=1001319`
+`localhost:8000/transit/?metrobus=1001319`
 
 `localhost:8000/transit/?metrorail=B01`
 
@@ -37,109 +37,170 @@ Example Response:
 
 ```[
   {
-    "agencyName": "DC Circulator",
     "predictions": [
       {
-        "direction": "Westbound",
-        "vehicleId": "2003",
         "destination": null,
-        "minutes": 14,
+        "fullRoute": "Georgetown - Union Station",
         "shortRoute": "yellow",
-        "fullRoute": "Georgetown - Union Station"
+        "minutes": 7,
+        "direction": "Westbound",
+        "vehicleId": "2121"
       },
       {
-        "direction": "Westbound",
-        "vehicleId": "1138",
         "destination": null,
-        "minutes": 28,
+        "fullRoute": "Georgetown - Union Station",
         "shortRoute": "yellow",
-        "fullRoute": "Georgetown - Union Station"
+        "minutes": 27,
+        "direction": "Westbound",
+        "vehicleId": "2108"
       },
       {
-        "direction": "Westbound",
-        "vehicleId": "1130",
         "destination": null,
-        "minutes": 38,
+        "fullRoute": "Georgetown - Union Station",
         "shortRoute": "yellow",
-        "fullRoute": "Georgetown - Union Station"
+        "minutes": 57,
+        "direction": "Westbound",
+        "vehicleId": "3005"
       },
       {
-        "direction": "Westbound",
-        "vehicleId": "2103",
         "destination": null,
-        "minutes": 48,
+        "fullRoute": "Georgetown - Union Station",
         "shortRoute": "yellow",
-        "fullRoute": "Georgetown - Union Station"
+        "minutes": 67,
+        "direction": "Westbound",
+        "vehicleId": "2009"
       },
       {
-        "direction": "Westbound",
-        "vehicleId": "2108",
         "destination": null,
-        "minutes": 68,
+        "fullRoute": "Georgetown - Union Station",
         "shortRoute": "yellow",
-        "fullRoute": "Georgetown - Union Station"
+        "minutes": 77,
+        "direction": "Westbound",
+        "vehicleId": "2114"
       }
     ],
-    "stopName": "K Street NW And 19th Street NW"
+    "stopName": "K Street NW And 19th Street NW",
+    "agencyName": "DC Circulator"
   },
   {
-    "agencyName": "DC Metrorail",
     "predictions": [
       {
-        "direction": "1",
-        "vehicleId": null,
-        "destination": "NoMa-Gallaudet",
-        "minutes": 2,
-        "shortRoute": "RD",
-        "fullRoute": "Red"
-      },
-      {
-        "direction": "1",
-        "vehicleId": null,
-        "destination": "NoMa-Gallaudet",
-        "minutes": 6,
-        "shortRoute": "RD",
-        "fullRoute": "Red"
-      },
-      {
-        "direction": "2",
-        "vehicleId": null,
         "destination": "Shady Grove",
-        "minutes": 6,
+        "fullRoute": "Red",
         "shortRoute": "RD",
-        "fullRoute": "Red"
+        "minutes": 0,
+        "direction": "2",
+        "vehicleId": null
       },
       {
+        "destination": "Glenmont",
+        "fullRoute": "Red",
+        "shortRoute": "RD",
+        "minutes": 1,
         "direction": "1",
-        "vehicleId": null,
-        "destination": "NoMa-Gallaudet",
-        "minutes": 15,
-        "shortRoute": "RD",
-        "fullRoute": "Red"
+        "vehicleId": null
       },
       {
-        "direction": "2",
-        "vehicleId": null,
-        "destination": "Shady Grove",
-        "minutes": 15,
+        "destination": "Silver Spring",
+        "fullRoute": "Red",
         "shortRoute": "RD",
-        "fullRoute": "Red"
+        "minutes": 3,
+        "direction": "1",
+        "vehicleId": null
       },
       {
-        "direction": "2",
-        "vehicleId": null,
-        "destination": "Shady Grove",
-        "minutes": 21,
+        "destination": "Glenmont",
+        "fullRoute": "Red",
         "shortRoute": "RD",
-        "fullRoute": "Red"
+        "minutes": 4,
+        "direction": "1",
+        "vehicleId": null
+      },
+      {
+        "destination": "Grosvenor-Strathmore",
+        "fullRoute": "Red",
+        "shortRoute": "RD",
+        "minutes": 1000,
+        "direction": "2",
+        "vehicleId": null
+      },
+      {
+        "destination": "Shady Grove",
+        "fullRoute": "Red",
+        "shortRoute": "RD",
+        "minutes": 1000,
+        "direction": "2",
+        "vehicleId": null
       }
     ],
-    "stopName": "Metro Center"
+    "stopName": "Metro Center",
+    "agencyName": "DC Metrorail"
+  },
+  {
+    "predictions": [
+      {
+        "destination": "East to Farragut Square",
+        "fullRoute": null,
+        "shortRoute": "38B",
+        "minutes": 0,
+        "direction": "0",
+        "vehicleId": "3124"
+      },
+      {
+        "destination": "South to Federal Triangle",
+        "fullRoute": null,
+        "shortRoute": "33",
+        "minutes": 6,
+        "direction": "1",
+        "vehicleId": "7145"
+      },
+      {
+        "destination": "East to Farragut Square",
+        "fullRoute": null,
+        "shortRoute": "38B",
+        "minutes": 6,
+        "direction": "0",
+        "vehicleId": "2652"
+      },
+      {
+        "destination": "South to Foggy Bottom Station",
+        "fullRoute": null,
+        "shortRoute": "31",
+        "minutes": 8,
+        "direction": "1",
+        "vehicleId": "7149"
+      },
+      {
+        "destination": "East to Naylor Rd Station",
+        "fullRoute": null,
+        "shortRoute": "30N",
+        "minutes": 15,
+        "direction": "0",
+        "vehicleId": "6524"
+      },
+      {
+        "destination": "South to Foggy Bottom Station",
+        "fullRoute": null,
+        "shortRoute": "31",
+        "minutes": 21,
+        "direction": "1",
+        "vehicleId": "7139"
+      },
+      {
+        "destination": "South to Federal Triangle",
+        "fullRoute": null,
+        "shortRoute": "33",
+        "minutes": 41,
+        "direction": "1",
+        "vehicleId": "6496"
+      }
+    ],
+    "stopName": "M St Nw + Wisconsin Ave Nw",
+    "agencyName": "DC Metrobus"
   }
-]
-```
+]```
 
-**Update 9/6/2018**: I have since implemented help functionality to look up stop IDs.
+**Update 9/6/2018**: I have since implemented a stop ID lookup functionality.
 
 **Metrorail**:
 
@@ -153,18 +214,18 @@ line code. Also line codes can be looked up by calling `localhost:8000/transit/m
 [metrobusHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/metrobusHelp.py)
 
 Metrobus stops can be looked up by entering in a latitude, longitude, and radius, like so:
-`http://localhost:8000/transit/metrobusstops/?lat=38.807270&lon=-77.060023&radius=1000`, which returns all stops in the area up to the
+`localhost:8000/transit/metrobusstops/?lat=38.807270&lon=-77.060023&radius=1000`, which returns all stops in the area up to the
 specified radius in meters
 
 **Circulator**:
 
 [circulatorHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/circulatorHelp.py)
 
-Circulator stops can be looked up by calling `http://localhost:8000/transit/circulatorstops/?tag=yellow` where the tag param is the
+Circulator stops can be looked up by calling `localhost:8000/transit/circulatorstops/?tag=yellow` where the tag param is the
 route tag. Also route tags can be looked up by calling `localhost:8000/transit/circulatorroutes/`
 
-Stop lookups for all three modes will show the actual stop name and coordinates (which help in looking up metrobus stops) in addition
-to the stop ID
+Stop lookups for all three modes will show the actual stop name and coordinates (which help in looking up
+metrobus stops) in addition to the stop ID.
 
 Example response for stop lookups:
 
