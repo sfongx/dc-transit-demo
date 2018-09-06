@@ -4,7 +4,7 @@ from django.conf.urls import re_path, include
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.handleRequest, name='handleRequest'),
+    url(r'^$', views.handleStandardRequest, name='handleStandardRequest'),
     url(r'^metrobusstops/', views.handleMetrobusStops, name='handleMetrobusStops'),
     url(r'^metrorailstops/', views.handleMetrorailStops, name='handleMetrorailStops'),
     url(r'^metroraillines/', views.handleMetrorailLines, name='handleMetrorailLines'),

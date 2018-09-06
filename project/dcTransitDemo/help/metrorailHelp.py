@@ -65,12 +65,12 @@ def parseStops(stopsResponse):
 def metrorailStopSearch(lineCode):
     # Attempt to make API call to obtain stations given a WMATA line code
     try:
-        # Set up line code paramter
+        # Set up line code param
         params = urllib.parse.urlencode({
             'LineCode': lineCode
         })
 
-        # Set up URL with the line code paramter and pass it into makeRequest
+        # Set up URL with the line code param and pass it into makeRequest
         url = "/Rail.svc/json/jStations?%s" % params
         rawResponse = makeRequest(url)
 
@@ -86,10 +86,10 @@ def metrorailStopSearch(lineCode):
 def metrorailLineSearch():
     # Attempt to make API call to obtain metro lines and their codes
     try:
-        # Set up a blank paramter
+        # Set up a blank param
         params = urllib.parse.urlencode({})
 
-        # Set up the url with the blank paramter and pass it into makeRequest
+        # Set up the url with the blank param and pass it into makeRequest
         url = "/Rail.svc/json/jLines?%s" % params
         rawResponse = makeRequest(url)
 

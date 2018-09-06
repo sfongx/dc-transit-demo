@@ -8,7 +8,7 @@ def makeRequest(lat, lon, rad):
 	    'api_key': '201aad5eaf734234a1e183c5750eaee0',
     }
 
-    # Set up the provided latitidue, longitude, and radius as parameters
+    # Set up the provided latitidue, longitude, and radius in params
     params = urllib.parse.urlencode({
         'Lat': lat,
         'Lon': lon,
@@ -38,6 +38,7 @@ def makeRequest(lat, lon, rad):
 def parseResponse(response):
     # List of stops stored under 'Stops'
     stopList = response['Stops']
+    
     # Initialize empty parsed stop list
     parsedStops = []
 
