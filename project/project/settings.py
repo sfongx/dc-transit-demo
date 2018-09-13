@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'dcTransitDemo',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -72,9 +73,13 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Using default database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
+    'default' : {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dc_demo_database',
+        'USER': 'sherwin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': ''
     }
 }
 
