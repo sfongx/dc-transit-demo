@@ -10,7 +10,7 @@ from django.db import models
 
 class Agency(models.Model):
     name = models.CharField(max_length=31)
-    slug = models.SlugField(max_length=31, unique=True)
+    slug = models.SlugField(max_length=31, primary_key=True)
     gtfs_link = models.URLField()
 
 class Stops(models.Model):

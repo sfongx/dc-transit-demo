@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dc_demo_database',
+        'NAME': 'dc_transit_demo_db',
         'USER': 'sherwin',
         'PASSWORD': 'admin',
         'HOST': 'localhost',
@@ -93,10 +93,13 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': './project/config/debug.log',
         },
+        'console': {
+            'class': 'logging.StreamHandler',
+        }
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },
@@ -104,7 +107,7 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
-        }
+        },
     },
 }
 
