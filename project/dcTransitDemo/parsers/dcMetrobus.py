@@ -2,6 +2,8 @@ from .abstractTransit import AbstractTransit
 import http.client, urllib.request, urllib.parse, urllib.error, base64
 import json
 
+import logging
+
 class DCMetrobus(AbstractTransit):
     
     def makeRequest(self, stopId):
@@ -37,11 +39,17 @@ class DCMetrobus(AbstractTransit):
             raise Exception("HTTP Error %d" %err.code)
         
     def parseResponse(self, response):
+        # Get an instance of a logger
+        logger = logging.getLogger(__name__)
+
+        # Check the raw response:
+        logger.debug("Raw response %s", json.dumps(response, indent=2))
+
         # First check for an error message
         if 'Message' in response:
             # If there is an error message assume a bad stop ID was provided
             return {
-                'error': 'DC Metrorail stop ID is not valid'
+                'error': 'DC Metrobus stop ID is not valid'
             }
         
         # Otherwise proceed to grab the following:

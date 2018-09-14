@@ -71,7 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-# Using default database
+# Using mysql database
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql',
@@ -81,6 +81,31 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': ''
     }
+}
+
+# Standard logging setup sending output to local file
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': './project/config/debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'dcTransitDemo.parsers.dcMetrobus': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
+    },
 }
 
 

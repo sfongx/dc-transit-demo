@@ -4,5 +4,8 @@ env1/
 # Ignore all the pycache files
 __pycache__/
 
-#Ignore the database
+# Ignore the default database
 project/mydatabase
+
+# Ignore the log files
+project/project/config
