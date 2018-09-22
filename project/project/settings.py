@@ -107,7 +107,7 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
-        },
+        }
     },
 }
 

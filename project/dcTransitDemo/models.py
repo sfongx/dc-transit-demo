@@ -7,7 +7,7 @@ class Agency(models.Model):
     name = models.CharField(max_length=31)
     slug = models.SlugField(max_length=31, primary_key=True)
     time_zone = models.CharField(max_length=31)
-    last_update = models.TimeField()
+    last_update = models.DateTimeField(null=True)
     gtfs_link = models.URLField()
 
     # Identify all agencies in other classes by their slug
@@ -53,4 +53,13 @@ class StopTimes(models.Model):
     stop_id = models.CharField(max_length=63)
     arrival_time = models.TimeField()
     departure_time = models.TimeField()
+
+    # Allow stop times to be JSON serializable
+    # def as_dict(self):
+    #     return {
+    #         "tripId": self.trip_id,
+    #         "stopId": self.stop_id,
+    #         "arrivalTime": self.arrival_time,
+    #         "departureTime":self.departure_time
+    #     }
 
