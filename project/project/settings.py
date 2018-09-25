@@ -103,7 +103,7 @@ LOGGING = {
         #     'level': 'DEBUG',
         #     'propagate': True,
         # },
-        'dcTransitDemo.migrations.0004_mtaMdData': {
+        'dcTransitDemo.migrations.0006_updateVreData2': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
