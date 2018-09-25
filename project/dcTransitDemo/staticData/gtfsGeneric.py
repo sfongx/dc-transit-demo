@@ -63,7 +63,7 @@ class GtfsGeneric():
         
         return out
 
-    def parseRoutes(self, file):
+    def parseRoutes(self):
         # Get the CSV dict reader for the stops file
         routesReader = self.getCsvReader('routes.txt')
         
@@ -72,16 +72,46 @@ class GtfsGeneric():
 
         # Grab the internal agency ID, route ID, short/long names, and colors
         for row in routesReader:
+            # First deal with empty values for short and long names
+            # Assumes at least one of them is non-empty
+            if row['route_short_name'] == False:
+                short_name = "-"
+            else:
+                short_name = row['route_short_name']
+
+            if row['route_long_name'] == False:
+                long_name = "-"
+            else:
+                long_name = row['route_long_name']
+
+            # Put it together afterwards
             out.append({
                 'internal_agency_id': row['agency_id'],
                 'route_id': row['route_id'],
-                'short_name': row['route_short_name'],
-                'long_name': row['route_long_name'],
+                'short_name': short_name,
+                'long_name': long_name,
                 'text_color': row['route_text_color'],
                 'background_color': row['route_color']
             })
         
         return out
+
+    def parseTrips(self):
+        # Get the CSV dict reader for the stops file
+        tripsReader = self.getCsvReader('trips.txt')
+
+        # Initialize array to return
+        out = []
+
+        # Grab the trip and route ID pairs for each
+        for trip in tripsReader:
+            out.append({
+                'trip_id': trip['trip_id'],
+                'route_id': trip['route_id']
+            })
+
+        return out
+
 
     def parseStopTimes(self):
         # Get the CSV dict reader for the stops file

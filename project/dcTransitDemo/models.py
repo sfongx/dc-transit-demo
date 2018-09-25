@@ -17,7 +17,7 @@ class Agency(models.Model):
 # Stops: store data about an agency's stops, identified by the agency slug name.
 # Includes the stop ID, stop name, and coordinates
 class Stops(models.Model):
-    agency_slug = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     stop_id = models.CharField(max_length=63)
     stop_name = models.CharField(max_length=63)
     lat = models.FloatField()
@@ -29,8 +29,8 @@ class Stops(models.Model):
 # text and background color. If either the short or long names are not available
 # a dash will be put in its place.
 class Routes(models.Model):
-    agency_slug = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    internal_agency_id = models.IntegerField()
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    internal_agency_id = models.CharField(max_length=15, null=True)
     route_id = models.CharField(max_length=31)
     short_name = models.CharField(max_length=31)
     long_name = models.TextField()
@@ -40,7 +40,7 @@ class Routes(models.Model):
 # Trips: store data about an agency's trips for each route, identified by the agency slug name.
 # Includes the corresponding route and trip IDs.
 class Trips(models.Model):
-    agency_slug = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     route_id = models.TextField()
     trip_id = models.TextField()
 
@@ -48,7 +48,7 @@ class Trips(models.Model):
 # identified by the agency slug name. Includes the arrival and departure times in hh:mm:ss,
 # trip ID, and stop ID.
 class StopTimes(models.Model):
-    agency_slug = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     trip_id = models.TextField()
     stop_id = models.CharField(max_length=63)
     arrival_time = models.TimeField()

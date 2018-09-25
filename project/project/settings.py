@@ -98,13 +98,13 @@ LOGGING = {
         }
     },
     'loggers': {
-        'django': {
+        # 'django': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        'dcTransitDemo.migrations.0004_mtaMdData': {
             'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'dcTransitDemo.parsers.dcMetrobus': {
-            'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
         }
