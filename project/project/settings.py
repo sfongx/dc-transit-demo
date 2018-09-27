@@ -107,6 +107,16 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'dcTransitDemo.parsers.gtfsGeneric': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'dcTransitDemo.views': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
         }
     },
 }

@@ -5,17 +5,24 @@ from .parsers.abstractTransit import AbstractTransit
 from .parsers.dcCirculator import DCCirculator
 from .parsers.dcMetrorail import DCMetrorail
 from .parsers.dcMetrobus import DCMetrobus
+from .parsers.gtfsGeneric import GtfsGeneric
+
 from .help.metrorailHelp import metrorailLineSearch, metrorailStopSearch
 from .help.metrobusHelp import metrobusStopSearch
 from .help.circulatorHelp import circulatorRouteSearch, circulatorStopSearch
 
-def handleStandardRequest(request):
-    # Project currently supports plugging in stop IDs for the DC Circulator, DC Metrobus, and DC Metrorail
-    circulatorId = request.GET.get('circulator', None)
-    metrorailId = request.GET.get('metrorail', None)
-    metrobusId = request.GET.get('metrobus', None)
+import json
 
-    if circulatorId is None and metrorailId is None and metrobusId is None:
+import logging
+
+def handleStandardRequest(request):
+    # Project currently supports plugging multiple stop Ids separated by commas per parameter    
+    circulatorIds = request.GET.get('circulator', None)
+    metrorailIds = request.GET.get('metrorail', None)
+    metrobusIds = request.GET.get('metrobus', None)
+    vreIds = request.GET.get('vre', None)
+
+    if circulatorIds is None and metrorailIds is None and metrobusIds is None and vreIds is None:
         # If none of the three params are set return an error message
         errorMessage = {
             'error': 'Please provide a stop ID for at least one agency'
@@ -24,14 +31,21 @@ def handleStandardRequest(request):
 
     # Pair each stop ID requested with the corresponding parser class
     parserPairs = []
-    if circulatorId:
-        parserPairs.append((DCCirculator(), circulatorId))
+    if circulatorIds:
+        for Id in circulatorIds.split(","):
+            parserPairs.append((DCCirculator(), Id))
 
-    if metrorailId:
-        parserPairs.append((DCMetrorail(), metrorailId))
+    if metrorailIds:
+        for Id in metrorailIds.split(","):
+            parserPairs.append((DCMetrorail(), Id))
     
-    if metrobusId:
-        parserPairs.append((DCMetrobus(), metrobusId))
+    if metrobusIds:
+        for Id in metrobusIds.split(","):
+            parserPairs.append((DCMetrobus(), Id))
+
+    if vreIds:
+        for Id in vreIds.split(","):
+            parserPairs.append((GtfsGeneric("vre"), Id))
 
     # Initialize empty list to return as the response
     responseList = []
