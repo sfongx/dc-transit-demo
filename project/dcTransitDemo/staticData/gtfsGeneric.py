@@ -107,7 +107,9 @@ class GtfsGeneric():
         for trip in tripsReader:
             out.append({
                 'trip_id': trip['trip_id'],
-                'route_id': trip['route_id']
+                'route_id': trip['route_id'],
+                'trip_headsign': trip['trip_headsign'],
+                'direction': trip['direction_id']
             })
 
         return out

@@ -124,8 +124,8 @@ class GtfsGeneric(AbstractTransit):
             parsedRepsonse['predictions'].append({
                 'shortRoute': routeInfo['short_name'],
                 'fullRoute': routeInfo['long_name'],
-                'destination': "",
-                'direction': "",
+                'destination': tripInfo['trip_headsign'], # Needs to be added
+                'direction': tripInfo['direction'], # Needs to be added
                 'minutes': minutesAway,
                 'vehicleId': tripInfo['trip_id']
             })

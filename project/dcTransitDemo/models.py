@@ -43,6 +43,8 @@ class Trips(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     route_id = models.TextField()
     trip_id = models.TextField()
+    trip_headsign = models.TextField(null=True)
+    direction = models.IntegerField(null=True)
 
 # StopTimes: store data about the scheduled times for each stop for an agency,
 # identified by the agency slug name. Includes the arrival and departure times in hh:mm:ss,
