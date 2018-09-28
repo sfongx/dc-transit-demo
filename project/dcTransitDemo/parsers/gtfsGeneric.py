@@ -1,30 +1,31 @@
 from django.core import serializers
+
 from .abstractTransit import AbstractTransit
 from ..models import Agency, Stops, Routes, Trips, StopTimes
+
 from datetime import datetime, time, timedelta
 from dateutil import tz
-# import http.client, urllib.request, urllib.parse, urllib.error, base64
-import json
-import logging
+
+import json, logging, math
 
 class GtfsGeneric(AbstractTransit):
     def __init__(self, agencyId):
-        # Grab the agency in question
+        # Grab the agency in question from database
         self.agency = Agency.objects.get(pk = agencyId)
 
-        # Accounting for the agency's time zone grab the current time
-        timezone = tz.gettz(self.agency.time_zone)
-        self.currentTstamp = datetime.now(timezone)
+        # Get the agency's timezone and current time
+        self.timezone = tz.gettz(self.agency.time_zone)
+        self.currentTime = datetime.now(self.timezone)
 
     def getTripsAtStop(self, stopId):
         # Get the trips for this stop
         allTripsAtStop = StopTimes.objects.filter(agency = self.agency, stop_id = stopId)
 
         # Get timestamp for 90 minutes from now
-        limitTstamp = self.currentTstamp + timedelta(minutes=90)
+        limitTstamp = self.currentTime + timedelta(minutes=60)
 
         # Create datetime.time objects for the request timestamp and the limit timestamp
-        requestTime = time(self.currentTstamp.hour, self.currentTstamp.minute, self.currentTstamp.second)
+        requestTime = time(self.currentTime.hour, self.currentTime.minute, self.currentTime.second)
         timeLimit = time(limitTstamp.hour, limitTstamp.minute, limitTstamp.second)
 
         # Filter the trips at the stop within the next 90 minutes
@@ -89,7 +90,7 @@ class GtfsGeneric(AbstractTransit):
 
         # Initial data with the name of the stop and agency
         parsedRepsonse = {
-            'agencyName': 'Virginia Railway Express',
+            'agencyName': self.agency.name,
             'stopName': currentStop['stop_name'],
             'predictions': []
         }
@@ -104,16 +105,28 @@ class GtfsGeneric(AbstractTransit):
             # Get train's route data
             routeInfo = self.getRouteInfo(tripInfo['route_id'])
 
-            # Get the train's time
-            # arrivalTime = datetime(self.currentTstamp.year, self.currentTstamp.month,
-            #     self.currentTstamp.day,)
+            # Get the train's arrival datetime
+            arrivalTime = train['fields']['arrival_time'].split(":")
+            arrivalDatetime = datetime(self.currentTime.year,
+                self.currentTime.month,
+                self.currentTime.day,
+                int(arrivalTime[0]),
+                int(arrivalTime[1]),
+                int(arrivalTime[2]),
+                00000,
+                tzinfo=self.timezone)
 
+            # Calculate minutes away and round down
+            tMinusDelta = arrivalDatetime - self.currentTime
+            minutesAway = math.floor(tMinusDelta.seconds / 60)
+
+            # Now put it all together
             parsedRepsonse['predictions'].append({
                 'shortRoute': routeInfo['short_name'],
                 'fullRoute': routeInfo['long_name'],
                 'destination': "",
                 'direction': "",
-                'minutes': 1,
+                'minutes': minutesAway,
                 'vehicleId': tripInfo['trip_id']
             })
 

@@ -15,14 +15,23 @@ import json
 
 import logging
 
+def paramCheck(circulator, metrorail, metrobus, vre, mtaMd):
+    # Helper function to see if any paramters were provided
+    if circulator or metrorail or metrobus or vre or mtaMd:
+        return True
+    else:
+        return False
+
+
 def handleStandardRequest(request):
     # Project currently supports plugging multiple stop Ids separated by commas per parameter    
     circulatorIds = request.GET.get('circulator', None)
     metrorailIds = request.GET.get('metrorail', None)
     metrobusIds = request.GET.get('metrobus', None)
+    mtaMdIds = request.GET.get('mtamd', None)
     vreIds = request.GET.get('vre', None)
 
-    if circulatorIds is None and metrorailIds is None and metrobusIds is None and vreIds is None:
+    if paramCheck(circulatorIds, metrorailIds, metrobusIds, mtaMdIds, vreIds) == False:
         # If none of the three params are set return an error message
         errorMessage = {
             'error': 'Please provide a stop ID for at least one agency'
@@ -31,30 +40,35 @@ def handleStandardRequest(request):
 
     # Pair each stop ID requested with the corresponding parser class
     parserPairs = []
-    if circulatorIds:
-        for Id in circulatorIds.split(","):
-            parserPairs.append((DCCirculator(), Id))
+    if circulatorIds:        
+        parserPairs.append((DCCirculator(), circulatorIds.split(",")))
 
-    if metrorailIds:
-        for Id in metrorailIds.split(","):
-            parserPairs.append((DCMetrorail(), Id))
+    if metrorailIds:        
+        parserPairs.append((DCMetrorail(), metrorailIds.split(",")))
     
     if metrobusIds:
-        for Id in metrobusIds.split(","):
-            parserPairs.append((DCMetrobus(), Id))
+        parserPairs.append((DCMetrobus(), metrobusIds.split(",")))
+
+    if mtaMdIds:            
+        parserPairs.append((GtfsGeneric("mta-md"), mtaMdIds.split(",")))
 
     if vreIds:
-        for Id in vreIds.split(","):
-            parserPairs.append((GtfsGeneric("vre"), Id))
+        parserPairs.append((GtfsGeneric("vre"), vreIds.split(",")))
 
     # Initialize empty list to return as the response
     responseList = []
 
     # Loop through and get the response for each
     for parserPair in parserPairs:
+        # Specific agency parser is the first value in the tuple
         parser = parserPair[0]
-        stopId = parserPair[1]
-        responseList.append(parser.getResponse(stopId))
+
+        # List of stop IDs is the second value
+        stopIds = parserPair[1]
+
+        # Proceed to loop through stop IDs for this agency
+        for stopId in stopIds:
+            responseList.append(parser.getResponse(stopId))
 
     return JsonResponse(responseList, safe=False)
 
