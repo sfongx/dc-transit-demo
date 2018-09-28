@@ -8,7 +8,7 @@ import dateutil
 
 import logging
 
-# I FORGOT TO CHANGE THE LOGGING CONIFGURATION IN SETTINGS SO I DID IT AGAIN
+# Update with new trip headsign and direction ID fields
 
 def update_vre_data(apps, schema_editor):
     # Get the VRE Agency
