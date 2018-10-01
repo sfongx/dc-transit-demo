@@ -7,13 +7,15 @@ as well as scheduled GTFS data from the Virginia Railway Express and MTA Marylan
 
 This is done with the Django framework and MySQL. To set up on Django's end create a virtual environment
 named `env1` and run `pip install -r requirements.txt` inside it to install all the necessary dependencies.
-On MySQL's end create a database named `dc_transit_demo_db`, create a project-specific user and set
+On MySQL's end create a database named `dc_transit_demo_db`, then create a project-specific user and set
 up privileges. Make sure this is reflected under `project/settings.py`
 
 **Stop data acquisition and parsing**
 
 The specific parsers for realtime or scheduled stop data are found under `project/dcTransitDemo/parsers`. 
-There is a GTFS handler that is called for every migration adding/updating GTFS data in the MySQL database
+Realtime data only requires an external API call and targeted parsing of the data returned. For static,
+scheduled, data queries are made on the `stop_times`, `trips`, `routes`, and `stops` tables. These are
+populated with the help of a GTFS handler that is called for every migration adding/updating GTFS data
 under `project/dcTransitDemo/staticData/gtfsGeneric.py`. However, in an actual production environment
 this would likely be a regularly scheduled, automated event.
 
@@ -207,22 +209,23 @@ Example Response:
 
 **Metrorail**:
 
-Metrorail station code lookup can be done by calling `localhost:8000/transit/metrorailstops/?code=RD`, where the code param is the
-line code. Also line codes can be looked up by calling `localhost:8000/transit/metroraillines/`
+Metrorail station code lookup can be done by calling `localhost:8000/transit/metrorailstops/?code=RD`,
+where `code` is the line code. Also line codes can be looked up by
+calling `localhost:8000/transit/metroraillines/`
 
 **Metrobus**:
 
 Metrobus stops can be looked up by entering in a latitude, longitude, and radius, like so:
-`localhost:8000/transit/metrobusstops/?lat=38.807270&lon=-77.060023&radius=1000`, which returns all stops in the area up to the
-specified radius in meters
+`localhost:8000/transit/metrobusstops/?lat=38.807270&lon=-77.060023&radius=1000`, which returns all stops
+in the area up to the specified radius in meters
 
 **Circulator**:
 
-Circulator stops can be looked up by calling `localhost:8000/transit/circulatorstops/?tag=yellow` where the tag param is the
-route tag. Also route tags can be looked up by calling `localhost:8000/transit/circulatorroutes/`
+Circulator stops can be looked up by calling `localhost:8000/transit/circulatorstops/?tag=yellow` where
+`tag` is the route tag. Toute tags can be looked up by calling `localhost:8000/transit/circulatorroutes/`
 
-Stop lookups for all three modes will show the actual stop name and coordinates (which help in looking up
-metrobus stops) in addition to the stop ID.
+Stop lookups for all three modes will show the actual stop name and coordinates (which are necessary to look
+up metrobus stops) in addition to the stop ID.
 
 Example response for stop lookups:
 
