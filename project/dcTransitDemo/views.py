@@ -11,9 +11,7 @@ from .help.metrorailHelp import metrorailLineSearch, metrorailStopSearch
 from .help.metrobusHelp import metrobusStopSearch
 from .help.circulatorHelp import circulatorRouteSearch, circulatorStopSearch
 
-import json
-
-import logging
+import json, logging
 
 def paramCheck(circulator, metrorail, metrobus, vre, mtaMd):
     # Helper function to see if any paramters were provided

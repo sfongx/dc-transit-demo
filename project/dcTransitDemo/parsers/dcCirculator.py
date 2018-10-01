@@ -23,13 +23,13 @@ class DCCirculator(AbstractTransit):
         except urllib.error.HTTPError as err:
             raise Exception("HTTP Error %d" %err.code)
 
-    def parseResponse(self, response):
+    def parseResponse(self, response, stopId):
         # First check for an error message
         response = response['body']
         if 'Error' in response:
             # If there is an error message assume a bad stop ID was provided
             return {
-                'error': 'DC Circulator stop ID is not valid'
+                'error': 'DC Circulator stop ID %s is not valid' % stopId
             }
         
         # Otherwise proceed to grab the following:
@@ -72,7 +72,7 @@ class DCCirculator(AbstractTransit):
             rawResponse = self.makeRequest(stopId)
             
             # Return the parsed response        
-            return self.parseResponse(rawResponse)
+            return self.parseResponse(rawResponse, stopId)
 
             # For testing purposes
             # return rawResponse

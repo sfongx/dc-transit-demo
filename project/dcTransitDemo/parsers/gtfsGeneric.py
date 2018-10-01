@@ -6,7 +6,7 @@ from ..models import Agency, Stops, Routes, Trips, StopTimes
 from datetime import datetime, time, timedelta
 from dateutil import tz
 
-import json, logging, math
+import json, math
 
 class GtfsGeneric(AbstractTransit):
     def __init__(self, agencyId):
@@ -18,22 +18,29 @@ class GtfsGeneric(AbstractTransit):
         self.currentTime = datetime.now(self.timezone)
 
     def getTripsAtStop(self, stopId):
-        # Get the trips for this stop
+        # Query for the trips at this stop
         allTripsAtStop = StopTimes.objects.filter(agency = self.agency, stop_id = stopId)
 
-        # Get timestamp for 90 minutes from now
-        limitTstamp = self.currentTime + timedelta(minutes=60)
+        if allTripsAtStop:
+            # If query succeeded, proceed to...
 
-        # Create datetime.time objects for the request timestamp and the limit timestamp
-        requestTime = time(self.currentTime.hour, self.currentTime.minute, self.currentTime.second)
-        timeLimit = time(limitTstamp.hour, limitTstamp.minute, limitTstamp.second)
+            # Get timestamp for 90 minutes from now
+            limitTstamp = self.currentTime + timedelta(minutes=60)
 
-        # Filter the trips at the stop within the next 90 minutes
-        closestTrips = allTripsAtStop.filter(arrival_time__range=(requestTime, timeLimit))
+            # Create datetime.time objects for the request timestamp and the limit timestamp
+            requestTime = time(self.currentTime.hour, self.currentTime.minute, self.currentTime.second)
+            timeLimit = time(limitTstamp.hour, limitTstamp.minute, limitTstamp.second)
 
-        closestTripsJson = serializers.serialize("json", closestTrips)
+            # Filter the trips at the stop within the next 90 minutes
+            closestTrips = allTripsAtStop.filter(arrival_time__range=(requestTime, timeLimit))
 
-        return json.loads(closestTripsJson)
+            closestTripsJson = serializers.serialize("json", closestTrips)
+
+            return json.loads(closestTripsJson)
+
+        else:
+            # Return false if the stop ID isn't valid
+            return False
 
     def getStopInfo(self, stopId):
         # Get and convert the query set filtering by the agency and stop ID
@@ -95,12 +102,9 @@ class GtfsGeneric(AbstractTransit):
             'predictions': []
         }
 
-        logger = logging.getLogger(__name__)
-
         for train in response:
             # Get train's trip data
             tripInfo = self.getTripInfo(train['fields']['trip_id'])
-            logger.debug("%s", json.dumps(train, indent=4))
 
             # Get train's route data
             routeInfo = self.getRouteInfo(tripInfo['route_id'])
@@ -135,4 +139,10 @@ class GtfsGeneric(AbstractTransit):
     def getResponse(self, stopId):
         rawResponse = self.getTripsAtStop(stopId)
 
-        return self.parseResponse(stopId, rawResponse)
+        if rawResponse:
+            return self.parseResponse(stopId, rawResponse)
+
+        else:
+            return {
+                'error': 'Stop ID %s is not valid' % stopId
+            }

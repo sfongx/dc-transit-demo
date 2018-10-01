@@ -34,12 +34,14 @@ class DCMetrorail(AbstractTransit):
         except urllib.error.HTTPError as err:
             raise Exception("HTTP Error %d" %err.code)
 
-    def parseResponse(self, response):
+    # def makeStationInfoRequest(self, stopId):
+
+    def parseResponse(self, response, stopId):
         # First check for an error message
         if 'Message' in response:
             # If there is an error message assume a bad stop ID was provided
             return {
-                'error': 'DC Metrorail stop ID is not valid'
+                'error': 'DC Metrorail stop ID %s is not valid' % stopId
             }
         
         # Otherwise proceed to grab the following:
@@ -107,7 +109,7 @@ class DCMetrorail(AbstractTransit):
             rawResponse = self.makeRequest(stopId)
             
             # Return the parsed response        
-            return self.parseResponse(rawResponse)
+            return self.parseResponse(rawResponse, stopId)
 
             # For testing purposes
             # return rawResponse
