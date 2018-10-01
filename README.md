@@ -1,37 +1,39 @@
 # dc-transit-demo
 
-This is a simple API that pulls in data from two different public transit agencies (in thise case the
-DC Circulator and DC Metro Rail, with potential for more) and aggregating them in a standardized format.
+This is a simple API that pulls in realtime transit data from the DC Metrorail, DC Metrobus, and DC Circulator,
+as well as scheduled GTFS data from the Virginia Railway Express and MTA Maryland.
 
-This is done within the Django framework. To set up create a virtual environment named `env1` and run
-`pip install -r requirements.txt` inside it to install all the necessary dependencies.
+**Setup**
 
-[views.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/views.py): The views file that handles the parameters typed in and creates the corresponding parser instances
+This is done with the Django framework and MySQL. To set up on Django's end create a virtual environment
+named `env1` and run `pip install -r requirements.txt` inside it to install all the necessary dependencies.
+On MySQL's end create a database named `dc_transit_demo_db`, create a project-specific user and set
+up privileges. Make sure this is reflected under `project/settings.py`
 
-[dcCirculator.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/parsers/dcCirculator.py): Parser class for 
-DC Circulator's Data
+**Stop data acquisition and parsing**
 
-[dcMetrorail.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/parsers/dcMetrorail.py): Parser class for 
-the DC Metrorail's Data
+The specific parsers for realtime or scheduled stop data are found under `project/dcTransitDemo/parsers`. 
+There is a GTFS handler that is called for every migration adding/updating GTFS data in the MySQL database
+under `project/dcTransitDemo/staticData/gtfsGeneric.py`. However, in an actual production environment
+this would likely be a regularly scheduled, automated event.
 
-[abstractTransit.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/parsers/abstractTransit.py): Abstract 
-parent parser class that only specifies that the `getResponse` method is required with a provided stop ID.
+The response includes the name of the agency and the stop name, followed by the list of buses or trains,
+each including the following fields: full and/or abbreviated route names, destination and/or direction, minutes away, and optionally a vehicle ID if provided.
 
-The response includes the name of the agency (Metrorail, Metrobus, or Circulator) and the stop name, followed
-by the list of buses or trains, each including the following fields: full and abbreviated route names, destination,
-direction, minutes away, and vehicle ID, though some may be left null.
+**Testing**
 
-I tested this on my local by navigating to `localhost:8000/transit/?` followed by the `circulator`, `metrobus`, and/or `metrorail` paramters with stop IDs.
+I tested this on my local by navigating to `localhost:8000/transit/?` followed by the `circulator`, `metrobus`, `metrorail`, `vre`, and/or `mtamd` paramters with stop IDs. Multiple stop IDs for an agency can be provided
+with a comma-separated list.
 
 Example calls:
 
 `localhost:8000/transit/?metrobus=1001319&metrorail=A01&circulator=12`
 
-`localhost:8000/transit/?circulator=8001`
-
 `localhost:8000/transit/?metrobus=1001319`
 
-`localhost:8000/transit/?metrorail=B01`
+`localhost:8000/transit/?metrorail=B01,A02`
+
+`localhost:8000/transit/?mtamd=7029,7053`
 
 Example Response:
 
@@ -201,26 +203,20 @@ Example Response:
 ]
 ```
 
-**Update 9/6/2018**: I have since implemented a stop ID lookup functionality.
+**Helpers for realtime data**
 
 **Metrorail**:
-
-[metrorailHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/metrorailHelp.py)
 
 Metrorail station code lookup can be done by calling `localhost:8000/transit/metrorailstops/?code=RD`, where the code param is the
 line code. Also line codes can be looked up by calling `localhost:8000/transit/metroraillines/`
 
 **Metrobus**:
 
-[metrobusHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/metrobusHelp.py)
-
 Metrobus stops can be looked up by entering in a latitude, longitude, and radius, like so:
 `localhost:8000/transit/metrobusstops/?lat=38.807270&lon=-77.060023&radius=1000`, which returns all stops in the area up to the
 specified radius in meters
 
 **Circulator**:
-
-[circulatorHelp.py](https://github.com/sfongx/dc-transit-demo/blob/master/project/dcTransitDemo/help/circulatorHelp.py)
 
 Circulator stops can be looked up by calling `localhost:8000/transit/circulatorstops/?tag=yellow` where the tag param is the
 route tag. Also route tags can be looked up by calling `localhost:8000/transit/circulatorroutes/`
