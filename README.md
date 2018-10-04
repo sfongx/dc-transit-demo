@@ -13,11 +13,11 @@ up privileges. Make sure this is reflected under `project/settings.py`
 **Stop data acquisition and parsing**
 
 The specific parsers for realtime or scheduled stop data are found under `project/dcTransitDemo/parsers`. 
-Realtime data only requires an external API call and targeted parsing of the data returned. For static,
-scheduled, data queries are made on the `stop_times`, `trips`, `routes`, and `stops` tables. These are
-populated with the help of a GTFS handler that is called for every migration adding/updating GTFS data
-under `project/dcTransitDemo/staticData/gtfsGeneric.py`. However, in an actual production environment
-this would likely be a regularly scheduled, automated event.
+Realtime data only requires an external API call and targeted parsing of the data returned, depending on the 
+agency and source of the data. For static/scheduled data, queries are made on the `stop_times`, `trips`,
+`routes`, and `stops` tables. These are populated with the help of a GTFS handler that is called for every 
+migration adding/updating GTFS data under `project/dcTransitDemo/staticData/gtfsGeneric.py`. However, in an actual 
+production environment this would likely be a regularly scheduled, automated event.
 
 The response includes the name of the agency and the stop name, followed by the list of buses or trains,
 each including the following fields: full and/or abbreviated route names, destination and/or direction, minutes away, and optionally a vehicle ID if provided.
