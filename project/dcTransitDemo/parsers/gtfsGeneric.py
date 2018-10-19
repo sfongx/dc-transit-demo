@@ -34,29 +34,26 @@ class GtfsGeneric(AbstractTransit):
         if allTripsAtStop:
             # If query succeeded, proceed to...
 
-            logger = logging.getLogger(__name__)
-
             # Get timestamp for 60 minutes from now
             limitTstamp = self.currentTime + timedelta(minutes=60)
 
             if limitTstamp.hour < self.currentTime.hour:
                 # Time overflows to the next day
 
-                # Get range till end of the day
+                # First range: Everything till end of the day
                 firstStart = time(self.currentTime.hour, self.currentTime.minute, self.currentTime.second)
                 firstEnd = time.max
 
-                # Query all trips until end of the day. Convert to JSON and then to dict
+                # Query the first range. Convert to JSON and then to dict
                 firstTripsQuery = allTripsAtStop.filter(arrival_time__range=(firstStart, firstEnd))
                 firstTripsJson = serializers.serialize("json", firstTripsQuery)
                 firstTripsDict = json.loads(firstTripsJson)
-                logger.debug("%s", json.dumps(firstTripsDict, indent=2))
 
-                # Get range from start of next day up until the limit
+                # Second range: Start of next day until the limit
                 secondStart = time.min
                 secondEnd = time(limitTstamp.hour, limitTstamp.minute, limitTstamp.second)
 
-                # Query all trips until end of the day. Convert to JSON and then to dict
+                # Query the second range. Convert to JSON and then to dict
                 secondTripsQuery = allTripsAtStop.filter(arrival_time__range=(secondStart, secondEnd))
                 secondTripsJson = serializers.serialize("json", secondTripsQuery)
                 secondTripsDict = json.loads(secondTripsJson)
