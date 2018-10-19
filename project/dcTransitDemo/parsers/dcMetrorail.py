@@ -111,9 +111,6 @@ class DCMetrorail(AbstractTransit):
             # Return the parsed response        
             return self.parseResponse(rawResponse, stopId)
 
-            # For testing purposes
-            # return rawResponse
-
         # makeRequest will throw an exception if it gets an http error
         except Exception as e:
             return str(e)
