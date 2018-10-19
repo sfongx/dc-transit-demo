@@ -143,8 +143,8 @@ class GtfsGeneric(AbstractTransit):
         # Get stop info
         currentStop = self.getStopInfo(stopId)
 
-        # Get agency's calendar data
-        calendarInfo = self.getCalendarInfo()
+        # Get agency's calendar data (not yet)
+        # calendarInfo = self.getCalendarInfo()
 
         # Initial data with the name of the stop and agency
         parsedResponse = {
