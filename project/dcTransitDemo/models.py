@@ -37,14 +37,29 @@ class Routes(models.Model):
     text_color = models.CharField(max_length=6, null=True)
     background_color = models.CharField(max_length=6, null=True)
 
-# Trips: store data about an agency's trips for each route, identified by the agency slug name.
-# Includes the corresponding route and trip IDs.
+# Trips: store data about an agency's trips for each route.
+# Includes the corresponding route, service, and trip IDs.
 class Trips(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     route_id = models.TextField()
+    service_id = models.TextField()
     trip_id = models.TextField()
     trip_headsign = models.TextField(null=True)
-    direction = models.IntegerField(null=True)
+    direction_id = models.IntegerField(null=True)
+
+# Calendar: store data about which routes run on which days of the week, identified by the agency
+# slug name. Includes the service ID and binary values for each day of the week stating whether
+# or not it runs on those days.
+class Calendar(models.Model):
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    service_id = models.TextField()
+    monday = models.IntegerField()
+    tuesday = models.IntegerField()
+    wednesday = models.IntegerField()
+    thursday = models.IntegerField()
+    friday = models.IntegerField()
+    saturday = models.IntegerField()
+    sunday = models.IntegerField()
 
 # StopTimes: store data about the scheduled times for each stop for an agency,
 # identified by the agency slug name. Includes the arrival and departure times in hh:mm:ss,
@@ -55,13 +70,4 @@ class StopTimes(models.Model):
     stop_id = models.CharField(max_length=63)
     arrival_time = models.TimeField()
     departure_time = models.TimeField()
-
-    # Allow stop times to be JSON serializable
-    # def as_dict(self):
-    #     return {
-    #         "tripId": self.trip_id,
-    #         "stopId": self.stop_id,
-    #         "arrivalTime": self.arrival_time,
-    #         "departureTime":self.departure_time
-    #     }
 

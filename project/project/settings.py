@@ -103,7 +103,12 @@ LOGGING = {
         #     'level': 'DEBUG',
         #     'propagate': True,
         # },
-        'dcTransitDemo.migrations.0009_mtaMdUpdate2': {
+        'dcTransitDemo.migrations.0003_initVreData': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'dcTransitDemo.migrations.0004_initMtaMdMigration': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
@@ -112,7 +117,12 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
-        }
+        },
+        'dcTransitDemo.parsers.gtfsGeneric': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }
 

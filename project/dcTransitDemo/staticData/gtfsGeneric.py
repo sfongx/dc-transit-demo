@@ -48,20 +48,9 @@ class GtfsGeneric():
     def parseStops(self):
         # Get the CSV dict reader for the stops file
         stopsReader = self.getCsvReader('stops.txt')
-        
-        # Initialize array to return
-        out = []
 
-        # Grab the stop name, stop ID, and coordinates
-        for row in stopsReader:
-            out.append({
-                'stop_id': row['stop_id'],
-                'stop_name': row['stop_name'],
-                'lat': row['stop_lat'],
-                'lon': row['stop_lon']
-            })
-        
-        return out
+        # Just return reader out to the migration
+        return stopsReader
 
     def parseRoutes(self):
         # Get the CSV dict reader for the stops file
@@ -100,19 +89,15 @@ class GtfsGeneric():
         # Get the CSV dict reader for the stops file
         tripsReader = self.getCsvReader('trips.txt')
 
-        # Initialize array to return
-        out = []
+        # Just return the reader out to the migration
+        return tripsReader
 
-        # Grab the trip and route ID pairs for each
-        for trip in tripsReader:
-            out.append({
-                'trip_id': trip['trip_id'],
-                'route_id': trip['route_id'],
-                'trip_headsign': trip['trip_headsign'],
-                'direction': trip['direction_id']
-            })
+    def parseCalendar(self):
+        # Get the CSV dict reader for the calendar file
+        calendarReader = self.getCsvReader('calendar.txt')
 
-        return out
+        # Just return the reader out to the migration
+        return calendarReader
 
 
     def parseStopTimes(self):
