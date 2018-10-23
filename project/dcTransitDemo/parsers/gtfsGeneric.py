@@ -21,26 +21,29 @@ class GtfsGeneric(AbstractTransit):
         # Grab the agency in question from database
         self.agency = Agency.objects.get(pk = agencyId)
 
-        # Get the agency's timezone, current time, and current day of the week
+        # Get the agency's timezone and calendar info 
         self.timezone = tz.gettz(self.agency.time_zone)
-        self.currentTime = datetime.now(self.timezone)
-        self.dayOfWeekNum = self.currentTime.weekday()
-
-        # Get agency's calendar info
         self.calendarInfo = self.getCalendarInfo()
-
-        # Create a list with names of the week in order
-        self.dayOfWeekMap = ['monday', 'tuesday', 'wednesday',
-            'thursday', 'friday', 'saturday', 'sunday']
 
         # Test time
         # self.currentTime = datetime(2018, 10, 18, 23, 45, 5, 00000, tzinfo=self.timezone)
 
+        # Get the timezone aware current time and tomorrow with their days of the week
+        self.currentTime = datetime.now(self.timezone)
+        self.tomorrow = self.currentTime + timedelta(days=1)
+        self.currentWeekday = self.currentTime.weekday()
+        self.tomrrowWeekday = self.tomorrow.weekday()
+
+        # Set a flag if the stop times query overflows to next day
+        self.nextDayOverflow = False       
+
+        # Create a list with names of the week to help with calendar retrieval
+        self.dayOfWeekMap = ['monday', 'tuesday', 'wednesday',
+            'thursday', 'friday', 'saturday', 'sunday']
+
     def getStopTimesAtStop(self, stopId):
         # Query stops times for all trips at this stop
         allTripsAtStop = StopTimes.objects.filter(agency = self.agency, stop_id = stopId)
-
-        logger = logging.getLogger(__name__)
 
         if allTripsAtStop:
             # If query succeeded, proceed to...
@@ -50,6 +53,9 @@ class GtfsGeneric(AbstractTransit):
 
             if limitTstamp.hour < self.currentTime.hour:
                 # Time overflows to the next day
+
+                # Set next day flag to true
+                self.nextDayOverflow = True
 
                 # First range: Everything till end of the day
                 firstStart = time(self.currentTime.hour, self.currentTime.minute, self.currentTime.second)
@@ -85,8 +91,6 @@ class GtfsGeneric(AbstractTransit):
                 closestTripsQuery = allTripsAtStop.filter(arrival_time__range=(requestTime, timeLimit))
                 closestTripsJson = serializers.serialize("json", closestTripsQuery)
 
-                logger.debug("Combined: %s", closestTripsJson)
-
                 # Return as dict
                 return json.loads(closestTripsJson)
 
@@ -103,14 +107,21 @@ class GtfsGeneric(AbstractTransit):
         # Return the resultant dict
         return calendarDict
 
-    def calendarCheck(self, tripInfo):
-        # Given a trip's service ID determine if it runs today
+    def calendarCheck(self, tripServiceId, weekNum):
+        # Given a trip's service ID determine if it runs on the
+        # specified day of the week (either today or tomorrow)
+
+        # Loop through calendar data
         for entry in self.calendarInfo:
             item = entry['fields']
-            if item['service_id'] == tripInfo['service_id']:
-                # Once a matching service ID is found, check day of week
-                if item[self.dayOfWeekMap[self.dayOfWeekNum]] == 1:
-                    # Return true if service runs today (indicated by binary 1)
+
+            # Check for matching service ID
+            if item['service_id'] == tripServiceId:                
+                # Once a matching service ID is found, proceed to...
+                
+                # Check day of week
+                if item[self.dayOfWeekMap[weekNum]] == 1:
+                    # Return true if service runs on specified day (indicated by binary 1)
                     return True
                 else:
                     # Return false if not (indicated by binary 0)
@@ -182,27 +193,61 @@ class GtfsGeneric(AbstractTransit):
         # Blank list to put unsorted predictions
         unsortedPredictions = []
 
+        # Loop through all entries in the query response
         for vehicle in response:
             # Get vehicle's trip data
             tripInfo = self.getTripInfo(vehicle['fields']['trip_id'])
 
-            # Check to see if the trip runs today
-            if (self.calendarCheck(tripInfo) == True):
-                # If trip runs today, proceed to...
+            # Get vehicle's arrival time
+            arrivalTime = vehicle['fields']['arrival_time'].split(":")
+            arrivalHour = int(arrivalTime[0])
+            arrivalMinute = int(arrivalTime[1])
+            arrivalSecond = int(arrivalTime[2])
+
+            # Create the arrivalDatetime and weekNum fields
+            weekNum = None
+            arrivalDatetime = None
+
+            # Create the arrival datetime objects past a next day overflow and
+            # after-midnight check
+            if (self.nextDayOverflow == True and arrivalHour < self.currentTime.hour):
+                # Set weekNum to tomorrow's
+                weekNum = self.tomrrowWeekday
+
+                # Use month/day/year for tomorrow's date and plug in the arrival time's
+                # hour/minute/second to create the arrival datetime
+                arrivalDatetime = datetime(
+                    self.tomorrow.year,
+                    self.tomorrow.month,
+                    self.tomorrow.day,
+                    arrivalHour,
+                    arrivalMinute,
+                    arrivalSecond,
+                    00000,
+                    tzinfo=self.timezone)
+
+            else:
+                # Set weekNum to today's
+                weekNum = self.currentWeekday
+
+                # Use today's date for the arrival datetime if the time did not overflow
+                arrivalDatetime = datetime(
+                    self.currentTime.year,
+                    self.currentTime.month,
+                    self.currentTime.day,
+                    arrivalHour,
+                    arrivalMinute,
+                    arrivalSecond,
+                    00000,
+                    tzinfo=self.timezone)
+
+            # After getting the arrival datetime,
+            # look at calendar data to see if the trip is actually running
+            if (self.calendarCheck(tripInfo['service_id'], weekNum) == True):
+                # If trip is running, proceed to...
 
                 # Get vehicle's route data
                 routeInfo = self.getRouteInfo(tripInfo['route_id'])
-
-                # Get the vehicle's arrival datetime
-                arrivalTime = vehicle['fields']['arrival_time'].split(":")
-                arrivalDatetime = datetime(self.currentTime.year,
-                    self.currentTime.month,
-                    self.currentTime.day,
-                    int(arrivalTime[0]),
-                    int(arrivalTime[1]),
-                    int(arrivalTime[2]),
-                    00000,
-                    tzinfo=self.timezone)
 
                 # Calculate minutes away and round down
                 rawTimeAway = arrivalDatetime - self.currentTime
@@ -218,7 +263,7 @@ class GtfsGeneric(AbstractTransit):
                     'vehicleId': tripInfo['trip_id']
                 })
 
-            # Do nothing and do not add if trip does not run today
+            # Do nothing and do not add if trip is not running
 
         # Outside loop once it's done grabbing and parsing predictions...
 
