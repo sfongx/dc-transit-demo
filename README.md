@@ -1,14 +1,15 @@
 # dc-transit-demo
 
-This is a simple API that pulls in realtime transit data from the DC Metrorail, DC Metrobus, and DC Circulator,
-as well as scheduled GTFS data from the Virginia Railway Express and MTA Maryland.
+As of now this is a small API that pulls in and returns realtime transit data from the DC Metrorail, DC Metrobus, and DC Circulator, as well as scheduled GTFS data from the Virginia Railway Express and MTA Maryland in a standardized format
 
 **Setup**
 
-This is done with the Django framework and MySQL. To set up on Django's end create a virtual environment
-named `env1` and run `pip install -r requirements.txt` inside it to install all the necessary dependencies.
-On MySQL's end create a database named `dc_transit_demo_db`, then create a project-specific user and set
-up privileges. Make sure this is reflected under `project/settings.py`
+This is done with the Django and MySQL. On MySQL's end create a database named `dc_transit_demo_db`, then create a project-specific user and set up privileges. Make sure this is reflected under `project/settings.py` (I am using user: sherwin, password: admin currently).
+To set up on Django's end first **make sure Python 3.6 or later is installed** (I had 3.4 and recently got a message saying support 
+has been deprecated). I am using the Windows Subsystem for Linux with Ubuntu 14.04 so I installed using a ppa. Also install python-dev 
+with `sudo apt-get install python3.x-dev` ('x' being the specific python version) or else `pip install mysqlclient` will fail. Create 
+the virtual environment with `virtualenv --python=/usr/bin/python3.x env1` and run `pip install -r requirements.txt` inside it to install all the necessary dependencies. 
+
 
 **Stop data acquisition and parsing**
 
